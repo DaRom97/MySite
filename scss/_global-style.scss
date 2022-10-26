@@ -1,0 +1,80 @@
+/*--------------------GLOBAL STYLES--------------------*/
+$maxWidth: 1300;
+@mixin adaptiv-font($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+@mixin adaptiv-padd($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	padding: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+@mixin adaptiv-padd-tb($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	padding: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth})) 0px;
+}
+
+@mixin adaptiv-padd-lr($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	padding: 0px calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+@mixin adaptiv-margin($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	margin: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+@mixin adaptiv-margin-tb($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	margin: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth})) 0px;
+}
+
+@mixin adaptiv-margin-lr($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	margin: 0px calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+body {
+	font-family: Jura;
+	background-color: #151515;
+}
+
+.wrapper {
+	min-height: 100%;
+	background: url(../img/icons/blocks/Group\ 4.svg) 0 0/cover no-repeat;
+	position: relative;
+	overflow: hidden;
+}
+
+.gradient__light {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(#2bff00, #0011fc);
+	transform: translate(-50%,-50%);
+	z-index: -1;
+	border-radius: 50%;
+	box-shadow: 0px 0px 100px 50px inset;
+	animation: changeColor 3s linear infinite;
+}
+@keyframes changeColor {
+	0%{
+		filter: hue-rotate(0deg);
+	}
+	100%{
+		filter: hue-rotate(360deg);
+	}
+}
+
+
+/*--------------------GLOBAL STYLES--------------------*/
