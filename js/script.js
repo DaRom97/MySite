@@ -1,5 +1,6 @@
 "use strict"
-
+/*------------For Page Slider------------*/
+let wrapperLoaded = document.querySelector('.wrapper');
 let pageSlider = new Swiper('.page', {
 	//Свої класи
 	wrapperClass: "page__wrapper",
@@ -47,8 +48,7 @@ let pageSlider = new Swiper('.page', {
 	observerParents: true,
 
 	//Оновити Свайпер при змінені дочерніх елементів слайдера
-	observerSlideChildren: true,
-	
+	observerSlideChildren: true,	
 
 	//Навігація
 	//Булети, поточне положення, прогресбар
@@ -76,6 +76,7 @@ let pageSlider = new Swiper('.page', {
 		//Подія ініцалізації
 		init: function () {
 			menuSlider();
+			wrapperLoaded.classList.add('_loaded');
 		},
 		//Подія зміни слайду
 		slideChange: function () {
@@ -84,9 +85,11 @@ let pageSlider = new Swiper('.page', {
 		},
 	},
 });
+/*------------For Page Slider------------*/
 
+
+/*------------For Navigation bar------------*/
 let menuLinks = document.querySelectorAll('.menu__link');
-
 function menuSlider() {
 	if (menuLinks.length > 0) {
 		menuLinks[pageSlider.realIndex].classList.add('_active');
@@ -101,7 +104,6 @@ function menuSlider() {
 		}
 	}
 }
-
 function menuSliderRemove() {
 	let menuLinkActive = document.querySelector('.menu__link._active');
 	if (menuLinkActive) {
@@ -109,8 +111,27 @@ function menuSliderRemove() {
 	}
 }
 pageSlider.init();
+/*------------For Navigation bar------------*/
 
 
+/*------------For Mouse gradient------------*/
+const wrapForGradient = document.querySelector('.wrapper');
+const gradientLight = document.querySelector('.gradient__light');
+const bodyWidth = document.body.clientWidth;
+
+
+
+
+
+wrapForGradient.addEventListener('mousemove', (e) => {
+	gradientLight.style.top = `${e.clientY}px`;
+	gradientLight.style.left = `${e.clientX}px`;
+});
+
+/*------------For Mouse gradient------------*/
+
+
+/*------------For Portfolio Slider------------*/
 let portfolioSlider = new Swiper('.portfolio-slider', {
 	navigation: {
 		prevEl: '.swiper-button-prev',
@@ -134,28 +155,138 @@ let portfolioSlider = new Swiper('.portfolio-slider', {
 	},
 	speed: 1000,
 });
+/*------------For Portfolio Slider------------*/
 
 
+/*------------For Contacts------------*/
+document.addEventListener('DOMContentLoaded', function () {
+	const form = document.getElementById('form');
+	form.addEventListener('submit', formSend);
 
-//document.addEventListener('DOMContentLoaded', function () {
-//	const form = document.getElementById('form');
-//	form.addEventListener('submit', formSend)
-//	async function formSend(e) {
-//		e.preventDefault();
-//	}
-//})
+	async function formSend(e) {
+		e.preventDefault();
+
+		let error = formValidate(form);
+		
+		let formData = new FormData(form);
+
+		if (error === 0) {
+
+			let formSending = document.querySelector('.formLoading');
+			formSending.classList.add('_sending');
+			
+			let response = await fetch("https://formsubmit.co/ajax/likepw10789@gmail.com", {
+				method: 'POST',
+				body: formData
+            });
+            if (response.ok) {
+               let result = await response.json();
+               alert(result.message);
+				form.reset();
+				formSending.classList.remove('_sending');
+			} else {
+				alert('ERROR!');
+				formSending.classList.remove('_sending');
+			}
+		} else {
+			alert('Complete the required fields correctly.');
+		}
+	}
 
 
+	function formValidate(form) {
+		let error = 0;
+		let formReq = document.querySelectorAll('._req');
 
+		for (let index = 0; index < formReq.length; index++) {
+			const input = formReq[index];
+			formRemoveError(input);
 
-
-
-
-
-const wrapForGradient = document.querySelector('.wrapper');
-const gradientLight = document.querySelector('.gradient__light');
-
-wrapForGradient.addEventListener('mousemove', (e) => {
-	gradientLight.style.top = `${e.clientY}px`
-	gradientLight.style.left = `${e.clientX}px`
+			if (input.classList.contains('_email')) {
+				if (emailTest(input)) {
+					formAddError(input);
+					error++;
+				}
+			} else {
+				if (input.value === '') {
+					formAddError(input);
+					error++;
+				}
+			}
+		}
+		return error;
+	} 
+	function formAddError(input) {
+		input.parentElement.classList.add('_error');
+		input.classList.add('_error');
+	}
+	function formRemoveError(input) {
+		input.parentElement.classList.remove('_error');
+		input.classList.remove('_error');
+	}
+	function emailTest(input) {
+		return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(input.value);
+	}
 })
+/*------------For Contacts------------*/
+
+/*------------For Popup------------*/
+const openPopup = document.querySelector('.popup-cv__link');
+const closePopup = document.querySelector('.close-popup');
+const popup = document.querySelector('.popup');
+
+openPopup.addEventListener('click', function (e) {
+	e.preventDefault();
+	popup.classList.add('open');
+});
+
+closePopup.addEventListener('click', function (e) {
+	e.preventDefault();
+	popup.classList.remove('open');
+});
+/*------------For Popup------------*/
+
+
+
+/*------------For Animate Blocks------------*/
+//const animItems = document.querySelectorAll('._anim-items');
+
+/*if (animItems.length > 0) {
+	window.addEventListener('scroll', animOnScroll);
+	function animOnScroll() {
+		for (let index = 0; index < animItems.length; index++) {
+			const animItem = animItems[index];
+			const animItemHeight = animItem.offsetHeight;
+			const animItemOffset = offset(animItem).top;
+			const animStart = 4;
+
+			let animItemPoint = window.innerHeight - animItemHeight / animStart;
+			if (animItemHeight > window.innerHeight) {
+				animItemPoint = window.innerHeight - window.innerHeight / animStart;
+			}
+
+			if ((scrollY > animItemOffset - animItemPoint) && scrollY < (animItemOffset + animItemHeight)) {
+				animItem.classList.add('_active');
+			} else {
+				animItem.classList.remove('_active');
+			}
+		}
+	}
+	function offset(el) {
+		const rect = el.getBoundingClientReact(),
+			scrollLeft = window.scrollX || document.documentElement.scrollLeft,
+			scrollTop = window.scrollY || document.documentElement.scrollTop;
+		return { top: rect.top + scrollTop, left: rect.left + scrollLeft}
+	}
+	animOnScroll();
+}*/
+
+
+
+
+
+/*------------For Animate Blocks------------*/
+
+
+
+
